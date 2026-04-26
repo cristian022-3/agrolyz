@@ -75,39 +75,23 @@ async function initializeApp() {
 }
 
 // ==================== CARGAR MODELO ====================
+// ==================== CARGAR MODELO ====================
 async function loadModel() {
-    // Obtener la ruta base (funciona en GitHub Pages)
-    const basePath = window.location.pathname.includes('/agrolyz/') 
-        ? '/agrolyz/models/model.json'
-        : './models/model.json';
+    // Usamos SIEMPRE la ruta relativa. Funciona en local y en GitHub Pages.
+    const modelPath = './models/model.json';
     
-    console.log('Intentando cargar modelo desde:', basePath);
+    console.log('Intentando cargar modelo desde:', modelPath);
     
     try {
-        model = await tf.loadLayersModel(basePath);
+        model = await tf.loadLayersModel(modelPath);
         console.log('✅ Modelo cargado exitosamente');
-        console.log('Modelo:', model);
         
         // Obtener nombres de clases
         await getClassNames();
         
     } catch (error) {
         console.error('Error al cargar modelo:', error);
-        
-        // Intentar alternativa
-        try {
-            console.log('Intentando ruta alternativa...');
-            const altPath = window.location.hostname === 'localhost' 
-                ? './models/model.json'
-                : '/agrolyz/models/model.json';
-            
-            model = await tf.loadLayersModel(altPath);
-            console.log('✅ Modelo cargado con ruta alternativa');
-            await getClassNames();
-        } catch (altError) {
-            console.error('Error con ruta alternativa:', altError);
-            throw new Error('No se pudo cargar el modelo desde ' + basePath + '. Verifica que los archivos estén en /models/');
-        }
+        throw new Error('No se pudo cargar el modelo desde ' + modelPath + '. Si estás en tu PC local, recuerda usar Live Server.');
     }
 }
 
