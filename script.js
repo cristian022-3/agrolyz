@@ -83,7 +83,7 @@ async function loadModel() {
     console.log('Intentando cargar modelo desde:', modelPath);
     
     try {
-        model = await tf.loadLayersModel(modelPath);
+        model = await tf.loadLayersModel('./models/model.json');
         console.log('✅ Modelo cargado exitosamente');
         
         // Obtener nombres de clases
