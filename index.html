@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Agrolyz - Detector de Enfermedades del Maíz usando IA">
+    <title>🌽 Agrolyz - Detector de Enfermedades del Maíz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🌽 AGROLYZ</h1>
+                <p class="subtitle">Detector Inteligente de Enfermedades del Maíz</p>
+                <p class="location">📍 Nariño, Colombia</p>
+            </div>
+        </header>
+ 
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Status/Loading -->
+            <div id="loading" class="loading-section">
+                <div class="spinner"></div>
+                <p id="loading-text">Cargando modelo de IA...</p>
+                <p class="loading-detail">Por favor espera mientras descargamos el modelo entrenado</p>
+            </div>
+ 
+            <!-- App Content (hidden until model loads) -->
+            <div id="app" class="app-section" style="display: none;">
+                
+                <!-- Video/Camera Section -->
+                <section class="camera-section">
+                    <div class="camera-container">
+                        <video id="webcam" class="camera-video" autoplay playsinline></video>
+                        <canvas id="canvas" style="display:none;"></canvas>
+                        <div class="camera-overlay">
+                            <p class="overlay-text">Posiciona la hoja en el centro</p>
+                        </div>
+                    </div>
+                </section>
+ 
+                <!-- Controls -->
+                <section class="controls-section">
+                    <button id="capture-btn" class="btn btn-primary">
+                        📷 Capturar Foto
+                    </button>
+                    <button id="analyze-btn" class="btn btn-secondary" disabled>
+                        🔍 Analizar Imagen
+                    </button>
+                    <button id="reset-btn" class="btn btn-tertiary" style="display: none;">
+                        🔄 Nueva Foto
+                    </button>
+                </section>
+ 
+                <!-- Results -->
+                <section id="results" class="results-section" style="display: none;">
+                    <div class="result-card">
+                        <h2>📊 Resultado del Análisis</h2>
+                        
+                        <div class="diagnosis-box" id="diagnosis-box">
+                            <h3 id="diagnosis-title">Diagnóstico</h3>
+                            <p id="diagnosis-disease" class="disease-name">-</p>
+                            <p id="diagnosis-confidence" class="confidence-text">-</p>
+                        </div>
+ 
+                        <!-- Confidence Chart -->
+                        <div class="confidence-chart">
+                            <h4>Confianza por Enfermedad:</h4>
+                            <div id="confidence-bars" class="confidence-bars">
+                                <!-- Se llena dinámicamente -->
+                            </div>
+                        </div>
+ 
+                        <!-- Recommendations -->
+                        <div class="recommendations-box">
+                            <h4>💡 Recomendaciones</h4>
+                            <p id="recommendations-text" class="recommendations-text">-</p>
+                        </div>
+ 
+                        <!-- Image Preview -->
+                        <div class="image-preview">
+                            <img id="preview-image" src="" alt="Foto capturada">
+                        </div>
+                    </div>
+                </section>
+ 
+                <!-- Info Section -->
+                <section class="info-section">
+                    <details>
+                        <summary>ℹ️ ¿Cómo usar Agrolyz?</summary>
+                        <div class="info-content">
+                            <h4>Pasos:</h4>
+                            <ol>
+                                <li>Toma una foto clara de la hoja del maíz</li>
+                                <li>Asegúrate que la iluminación sea buena</li>
+                                <li>Haz clic en "Analizar Imagen"</li>
+                                <li>Recibe diagnóstico y recomendaciones</li>
+                            </ol>
+                            <h4>Enfermedades Detectadas:</h4>
+                            <ul>
+                                <li><strong>Roya del Maíz:</strong> Pústulas anaranjadas/rojas</li>
+                                <li><strong>Tizón Gris:</strong> Manchas gris-marrones</li>
+                                <li><strong>Hoja Sana:</strong> Sin síntomas visibles</li>
+                            </ul>
+                            <h4>Precisión:</h4>
+                            <p>Modelo entrenado con 7,000+ imágenes reales. Precisión: 92-96%</p>
+                        </div>
+                    </details>
+                </section>
+ 
+            </div>
+ 
+            <!-- Error Section -->
+            <div id="error" class="error-section" style="display: none;">
+                <div class="error-box">
+                    <h2>❌ Error al Cargar</h2>
+                    <p id="error-message">No se pudo cargar el modelo</p>
+                    <p class="error-detail">Intenta recargar la página</p>
+                    <button onclick="location.reload()" class="btn btn-primary">
+                        🔄 Recargar
+                    </button>
+                </div>
+            </div>
+ 
+        </main>
+ 
+        <!-- Footer -->
+        <footer class="footer">
+            <p>🌍 Agrolyz v1.0 | Powered by TensorFlow.js | GitHub Pages</p>
+            <p>Creado para agricultores del sur de Nariño</p>
+        </footer>
+    </div>
+ 
+    <!-- TensorFlow.js desde CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0"></script>
+    <script src="script.js"></script>
+</body>
+</html>
