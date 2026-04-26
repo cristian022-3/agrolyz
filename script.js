@@ -1,5 +1,5 @@
 /* ==========================================
-   AGROLYZ - Script.js
+   AGROLYZ - Script.js CORREGIDO
    Lógica de cámara y análisis con TensorFlow.js
    ========================================== */
 
@@ -46,13 +46,6 @@ const recommendations = {
     }
 };
 
-// Mapeo de clases del dataset a nuestras categorías
-const classMapping = {
-    'Corn___Common_rust': ['Corn___Common_rust'],
-    'Corn___Gray_leaf_spot': ['Corn___Gray_leaf_spot'],
-    'Corn___healthy': ['Corn___healthy']
-};
-
 // ==================== INICIALIZACIÓN ====================
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Agrolyz iniciando...');
@@ -83,12 +76,15 @@ async function initializeApp() {
 
 // ==================== CARGAR MODELO ====================
 async function loadModel() {
-    const modelPath = './models/model.json';
+    // Obtener la ruta base (funciona en GitHub Pages)
+    const basePath = window.location.pathname.includes('/agrolyz/') 
+        ? '/agrolyz/models/model.json'
+        : './models/model.json';
     
-    console.log('Descargando modelo desde:', modelPath);
+    console.log('Intentando cargar modelo desde:', basePath);
     
     try {
-        model = await tf.loadLayersModel(modelPath);
+        model = await tf.loadLayersModel(basePath);
         console.log('✅ Modelo cargado exitosamente');
         console.log('Modelo:', model);
         
@@ -97,12 +93,26 @@ async function loadModel() {
         
     } catch (error) {
         console.error('Error al cargar modelo:', error);
-        throw new Error('No se pudo cargar el modelo. Verifica que model.json esté en la carpeta /models/');
+        
+        // Intentar alternativa
+        try {
+            console.log('Intentando ruta alternativa...');
+            const altPath = window.location.hostname === 'localhost' 
+                ? './models/model.json'
+                : '/agrolyz/models/model.json';
+            
+            model = await tf.loadLayersModel(altPath);
+            console.log('✅ Modelo cargado con ruta alternativa');
+            await getClassNames();
+        } catch (altError) {
+            console.error('Error con ruta alternativa:', altError);
+            throw new Error('No se pudo cargar el modelo desde ' + basePath + '. Verifica que los archivos estén en /models/');
+        }
     }
 }
 
 async function getClassNames() {
-    // Intentar cargar desde metadata o usar nombres predeterminados
+    // Nombres de clases del dataset
     const predefinedClasses = [
         'Apple___Apple_scab', 'Apple___Black_rot', 'Apple___Cedar_apple_rust', 'Apple___healthy',
         'Blueberry___healthy',
